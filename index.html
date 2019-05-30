@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title></title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+      }
+      .map-overlay {   
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        background: rgba(255, 255, 255, 0.8);
+        margin-right: 20px;
+        font-family: Arial, sans-serif;
+        overflow: auto;
+        border-radius: 3px;}
+
+      #legend{
+        position: absolute; 
+        padding: 10px;
+        top: 520px; 
+        line-height: 18px; 
+        height: 200px; 
+        margin-bottom: 40px; 
+        margin-right: 20px;
+        width:250px;}
+
+      .legend-key {
+        display: inline-block; 
+        border-radius: 20%; 
+        width: 10px; 
+        height: 10px;  
+        margin-right: 15px;}
+    </style>
+</head>
+<body>
+  <div id='map'></div>
+  <div class = 'map-overlay' id='legend'>
+    <h2>Median Household Income Levels</h2>
+  </div>
+
+  <script>
+    mapboxgl.accessToken = 'pk.eyJ1Ijoic3VueWFuZzA0MjYiLCJhIjoiY2l2Mmh5Y2dxMDF1NzJ5cGhhazU5a3h1ciJ9.LChXuAo-sW2qS33wpha-rw';
+    var map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/sunyang0426/cjw9pu0ij0bv21cmwevpheath',
+      center: [-79.312, 43.709],
+      zoom: 10.6  // define how the map is zoomed when open the window
+    });
+
+     map.on('click', 'fatal_major', function(e) {
+  new mapboxgl.Popup()
+    .setLngLat(e.features[0].geometry.coordinates)
+    .setHTML('This collision happened on ' + e.features[0].properties.DATE + '.' + '<p>A ' + e.features[0].properties.TYPE + ' aged ' + e.features[0].properties.INVAGE + ' was ' + e.features[0].properties.condition + '.</p>')
+    .addTo(map);
+});
+
+     map.getCanvas().style.cursor = 'default';
+
+     // Add legend to the map layer
+map.on('load', function() {
+  var layers = ['Poorest 20%', 'Lower-Middle 20%', 'Middle 20%', 'Upper-Middle 20%', 'Highest 20%'];
+  var colors = ['#00ffff', '#00ccff', '#0099ff', '#0066ff', '#0000ff'];
+  for (i = 0; i < layers.length; i++) {
+  var layer = layers[i];
+  var color = colors[i];
+  var item = document.createElement('div');
+  var key = document.createElement('span');
+  key.className = 'legend-key';
+  key.style.backgroundColor = color;
+  var value = document.createElement('span');
+  value.innerHTML = layer;
+  item.appendChild(key);
+  item.appendChild(value);
+  legend.appendChild(item);
+}
+});
+  </script>
+</body>
+</html>
