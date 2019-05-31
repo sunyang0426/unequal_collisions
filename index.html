@@ -64,7 +64,7 @@
      map.on('click', 'fatal_major', function(e) {
   new mapboxgl.Popup()
     .setLngLat(e.features[0].geometry.coordinates)
-    .setHTML('This collision happened on ' + e.features[0].properties.DATE + '.' + '<p>A ' + e.features[0].properties.TYPE + ' aged ' + e.features[0].properties.INVAGE + ' was ' + e.features[0].properties.condition + '.</p>')
+    .setHTML('<h3>' + e.features[0].properties.DATE + '</h3>' + 'A ' + e.features[0].properties.TYPE + ' aged ' + e.features[0].properties.INVAGE + ' was ' + e.features[0].properties.condition + '.')
     .addTo(map);
 });
 
